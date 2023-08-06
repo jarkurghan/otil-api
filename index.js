@@ -12,6 +12,13 @@ app.use(helmet());
 app.use(cors());
 app.use(morgan("combined"));
 env();
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import options1 from "./tools/swagger_options.js";
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(options1)));
+// (async () => {
+//   console.log(await generate_id());
+// })();
 
 app.use("/", router);
 app.listen(process.env.PORT, () => {

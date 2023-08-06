@@ -1,6 +1,7 @@
 // Update with your config settings.
 import envm from "./../environment/_env_module.js";
 envm("../");
+envm();
 
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
