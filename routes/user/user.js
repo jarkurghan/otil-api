@@ -38,8 +38,24 @@ user.add_action = async (req, res) => {
 
 user.get_all_user_action = async (req, res) => {
   try {
-    const data = await knex("user_action");
-    await res.status(200).json(data);
+    const users = await knex("users").select(["id", "first_name", "last_name"]);
+    const allacc = await knex("action");
+    const actions = await knex("user_action")
+      .leftJoin("action", "action.id", "user_action.action")
+      .select(["user_action.*", "action.action as action_text"]);
+    for (let i = 0; i < users.length; i++) {
+      users[i].name = `${users[i].first_name} ${users[i].last_name}`;
+      delete users[i].first_name;
+      delete users[i].last_name;
+      let x = {};
+      for (let j = 0; j < actions.length; j++)
+        if (actions[j].user === users[i].id) x[actions[j].action_text] = true;
+      users[i].actions = { ...x };
+      for (let j = 0; j < allacc.length; j++)
+        if (!users[i].actions[allacc[j].action])
+          users[i].actions[allacc[j].action] = false;
+    }
+    await res.status(200).json(users);
   } catch (error) {
     console.log(error);
     res.status(500).json("an error occurred");
@@ -58,7 +74,7 @@ user.get_user_action = async (req, res) => {
 
 user.get_action = async (req, res) => {
   try {
-    const data = await knex("action")
+    const data = await knex("action");
     await res.status(200).json(data);
   } catch (error) {
     console.log(error);
