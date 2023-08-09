@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { login } from "./login.js";
+import action from "./action.js";
 import user from "./user.js";
 const router = Router();
 
@@ -7,9 +8,9 @@ const router = Router();
 // check action middleware
 router.post("/login", login);
 router.post("/", user.create);
-router.post("/action", user.add_action);
-router.get("/actions", user.get_all_user_action);
-router.get("/action/:id", user.get_user_action);
-router.get("/action2", user.get_action);
+router.get("/action", action.get_all_user_action); //
+router.post("/action/add", action.action_add); //
+router.delete("/action/del", action.action_del); //
+router.get("/actions", action.get_action); //
 
 export default router;

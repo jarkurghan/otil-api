@@ -58,7 +58,7 @@
 
 /**
  * @swagger
- * /otil/v1/api/user/actions:
+ * /otil/v1/api/user/action:
  *   get:
  *       summary: get actions of all users
  *       tags: [user]
@@ -81,37 +81,7 @@
 
 /**
  * @swagger
- * /otil/v1/api/user/action/{id}:
- *   get:
- *       summary: get actions by user id
- *       tags: [user]
- *       security:
- *            - token: []
- *       parameters:
- *            - in: path
- *              name: id
- *              required: true
- *              schema:
- *                     type: integer
- *                     example: 1
- *       responses:
- *            200:
- *                description: success
- *                content:
- *                    application/json:
- *                         schema:
- *                              type: string
- *            400:
- *                description: error
- *                content:
- *                    application/json:
- *                         schema:
- *                              type: string
- */
-
-/**
- * @swagger
- * /otil/v1/api/user/action2:
+ * /otil/v1/api/user/actions:
  *   get:
  *       summary: get all actions
  *       tags: [user]
@@ -134,7 +104,7 @@
 
 /**
  * @swagger
- * /otil/v1/api/user/action:
+ * /otil/v1/api/user/action/add:
  *   post:
  *       summary: add action for user
  *       tags: [user]
@@ -146,7 +116,37 @@
  *                  application/json:
  *                      schema:
  *                          type: object
- *                          example: {"user": 2,"actions":[1, 2, 3]}
+ *                          example: {"user": 2,"action":1}
+ *       responses:
+ *            200:
+ *                description: success
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ *            400:
+ *                description: error
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ */
+
+/**
+ * @swagger
+ * /otil/v1/api/user/action/del:
+ *   post:
+ *       summary: remove action from user
+ *       tags: [user]
+ *       security:
+ *            - token: []
+ *       requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          example: {"user": 2,"action":1}
  *       responses:
  *            200:
  *                description: success
