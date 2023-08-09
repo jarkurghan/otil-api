@@ -20,50 +20,5 @@ user.create = async (req, res) => {
     res.status(500).json("an error occurred");
   }
 };
-user.add_action = async (req, res) => {
-  try {
-    // validation
-    const { user, actions } = req.body;
-    const data = actions.map((e) => {
-      return { user, action: e };
-    });
-    // check
-    await knex("user_action").insert(data);
-    await res.status(201).json("success");
-  } catch (error) {
-    console.log(error);
-    res.status(500).json("an error occurred");
-  }
-};
-
-user.get_all_user_action = async (req, res) => {
-  try {
-    const data = await knex("user_action");
-    await res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json("an error occurred");
-  }
-};
-
-user.get_user_action = async (req, res) => {
-  try {
-    const data = await knex("user_action").where({ user: req.params.id });
-    await res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json("an error occurred");
-  }
-};
-
-user.get_action = async (req, res) => {
-  try {
-    const data = await knex("action")
-    await res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json("an error occurred");
-  }
-};
 
 export default user;
