@@ -2,11 +2,12 @@ import { Router } from "express";
 import { login } from "./login.js";
 import action from "./action.js";
 import user from "./user.js";
+import auth from "../../middleware/auth.js";
 const router = Router();
 
-// token middleware
 // check action middleware
 router.post("/login", login);
+router.use(auth);
 router.get("/", user.getUsers);
 router.get("/status", user.getStatuses);
 router.post("/", user.create);
