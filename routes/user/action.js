@@ -11,7 +11,7 @@ action.action_add = async (req, res) => {
     if (validation.error)
       return res.status(400).json(validation.error.details[0].message);
 
-    if (req.body.user == req.user?.id)
+    if (req.body.user == req.user.id)
       return res.status(400).json("not updatable");
     const user = await knex("users").where({ id: req.body.user }).first();
     if (!user) return res.status(400).json("user not found");
@@ -42,7 +42,7 @@ action.action_del = async (req, res) => {
     if (validation.error)
       return res.status(400).json(validation.error.details[0].message);
 
-    if (req.body.user == req.user?.id)
+    if (req.body.user == req.user.id)
       return res.status(400).json("not updatable");
     const user = await knex("users").where({ id: req.body.user }).first();
     if (!user) return res.status(400).json("user not found");
