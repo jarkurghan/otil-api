@@ -27,4 +27,14 @@ word.new_word = async (req, res) => {
   }
 };
 
+word.get_words = async (req, res) => {
+  try {
+    const words = await knex("words")
+    res.status(200).json(words);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("an error occurred");
+  }
+};
+
 export default word;
