@@ -51,14 +51,14 @@ export async function seed(knex) {
     { type: "history" },
   ]);
 
-  await knex("word_type").insert([
-    { type: "ot" },
-    { type: "son" },
-    { type: "sanoq son" },
-    { type: "chama son" },
-    { type: "sifat" },
-    { type: "va boshqalar" },
-  ]);
+  // await knex("word_type").insert([
+  //   { type: "ot" },
+  //   { type: "son" },
+  //   { type: "sanoq son" },
+  //   { type: "chama son" },
+  //   { type: "sifat" },
+  //   { type: "va boshqalar" },
+  // ]);
 
   await knex("view_level").insert([
     { level: "ko'rgan" },
