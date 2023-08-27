@@ -7,25 +7,25 @@ envm();
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 export default {
-  development: {
-    client: "postgresql",
-    connection: {
-      connectionString: process.env.DATABASE_URL,
+    development: {
+        client: "postgresql",
+        connection: {
+            connectionString: process.env.DATABASE_URL,
+        },
+        pool: {
+            min: 2,
+            max: 10,
+        },
     },
-    pool: {
-      min: 2,
-      max: 10,
+    production: {
+        client: "postgresql",
+        connection: {
+            connectionString: process.env.DATABASE_URL,
+            ssl: { rejectUnauthorized: false },
+        },
+        pool: {
+            min: 2,
+            max: 10,
+        },
     },
-  },
-  production: {
-    client: "postgresql",
-    connection: {
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-    },
-    pool: {
-      min: 2,
-      max: 10,
-    },
-  },
 };
