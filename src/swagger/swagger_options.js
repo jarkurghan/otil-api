@@ -13,5 +13,5 @@ export default {
                   },
         ],
     },
-    apis: ["./tools/swagger/UI/*.js"],
+    apis: ["./src/swagger/UI/*.js"],
 };
