@@ -5,8 +5,8 @@ export default async function readFile(uuid) {
     const arr = [];
     const data = {};
     var zip = new JSZip();
-    const file = await knex.select("*").from("files").where({ file_uuid: uuid });
-    const chunks = await knex.select("*").from("file_chunk").where({ file_uuid: uuid });
+    const file = await knex.select("*").from("files").where({ uuid });
+    const chunks = await knex.select("*").from("file_chunk").where({ uuid });
     if (!chunks[0]) throw new Error("file does not exist");
     data.type = file[0].type;
     for (let i = 0; i < chunks.length; i++) for (let j = 0; j < chunks[i].chunk.length; j++) arr.push(chunks[i].chunk[j]);

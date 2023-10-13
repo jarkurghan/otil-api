@@ -2,6 +2,7 @@ import Joi from "joi";
 import knex from "../../db/db.js";
 import writeFile from "../../file/write.js";
 import readFile from "../../file/read.js";
+import schema from "../../validations/schema.js";
 
 const word = {};
 
@@ -17,10 +18,14 @@ word.get_resources = async (req, res) => {
 
 word.add_resource = async (req, res) => {
     try {
-        if (!req.file || !req.file.buffer || !Buffer.isBuffer(req.file.buffer)) {
-            return res.status(400).json({ message: "file is required" });
-        }
+        const validation = schema.createResource.validate(req.body);
+        if (validation.error) return res.status(400).json({ message: validation.error.details[0].message });
+        if (!req.file || !req.file.buffer || !Buffer.isBuffer(req.file.buffer)) return res.status(400).json({ message: "file is required" });
+
+        // check
+
         req.body.file = await writeFile(req.file);
+        req.body.created_by = req.user.id;
         await knex("resources").insert(req.body);
         res.status(201).json({});
     } catch (error) {
