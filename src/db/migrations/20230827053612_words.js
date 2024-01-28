@@ -7,7 +7,7 @@ export function up(knex) {
         .createTable("word_status", function (table) {
             table.increments("id").primary();
             table.string("status").notNullable();
-            table.string("description");
+            table.text("description");
         })
         .createTable("view_level", function (table) {
             table.increments("id").primary();
@@ -28,7 +28,7 @@ export function up(knex) {
             table.increments("id").primary();
             table.integer("word").notNullable();
             table.foreign("word").references("id").inTable("words");
-            table.string("history").notNullable();
+            table.text("history").notNullable();
             table.integer("resource").notNullable();
             table.foreign("resource").references("id").inTable("resources");
             table.integer("page").notNullable();
@@ -40,7 +40,7 @@ export function up(knex) {
             table.increments("id").primary();
             table.integer("word").notNullable();
             table.foreign("word").references("id").inTable("words");
-            table.string("phrase").notNullable();
+            table.text("phrase").notNullable();
             table.string("word_position").notNullable();
             table.integer("resource").notNullable();
             table.foreign("resource").references("id").inTable("resources");
@@ -53,7 +53,7 @@ export function up(knex) {
             table.increments("id").primary();
             table.integer("word").notNullable();
             table.foreign("word").references("id").inTable("words");
-            table.string("definition").notNullable();
+            table.text("definition").notNullable();
             table.integer("resource").notNullable();
             table.foreign("resource").references("id").inTable("resources");
             table.integer("page").notNullable();
@@ -62,17 +62,6 @@ export function up(knex) {
             table.datetime("written_date").defaultTo(knex.fn.now()).notNullable();
         })
         .createTable("synonym", function (table) {
-            table.increments("id").primary();
-            table.integer("word").notNullable();
-            table.foreign("word").references("id").inTable("words");
-            table.integer("synonym").notNullable();
-            table.foreign("synonym").references("id").inTable("words");
-            table.integer("level").notNullable();
-            table.integer("written_by").notNullable();
-            table.foreign("written_by").references("id").inTable("users");
-            table.datetime("written_date").defaultTo(knex.fn.now()).notNullable();
-        })
-        .createTable("inflected_form", function (table) {
             table.increments("id").primary();
             table.integer("word").notNullable();
             table.foreign("word").references("id").inTable("words");
@@ -164,7 +153,6 @@ export function down(knex) {
         .dropTable("view")
         .dropTable("comment_like")
         .dropTable("comment")
-        .dropTable("inflected_form")
         .dropTable("synonym")
         .dropTable("definition")
         .dropTable("example")

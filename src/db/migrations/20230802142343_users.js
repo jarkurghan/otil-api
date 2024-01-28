@@ -7,17 +7,17 @@ export function up(knex) {
         .createTable("user_status", function (table) {
             table.increments("id").primary();
             table.string("status").notNullable();
-            table.string("description");
+            table.text("description");
         })
         .createTable("avatar_status", function (table) {
             table.increments("id").primary();
             table.string("status").notNullable();
-            table.string("description");
+            table.text("description");
         })
         .createTable("action", function (table) {
             table.increments("id").primary();
             table.string("action").notNullable();
-            table.string("description");
+            table.text("description").notNullable();
         })
         .createTable("users", function (table) {
             table.increments("id").primary();
