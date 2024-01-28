@@ -10,7 +10,6 @@ export default function (word) {
     if (typeof word.history?.history !== "undefined" && !word.history?.history) delete word.history.history;
     if (typeof word.history?.resource !== "undefined" && !word.history?.resource) delete word.history.resource;
     if (typeof word.history?.page !== "undefined" && !word.history?.page) delete word.history.page;
-    delete word.other_forms_text;
-    delete word.other_forms_2_text;
+    delete word.synonyms_text;
     return word;
 }

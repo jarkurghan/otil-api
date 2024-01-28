@@ -1,7 +1,7 @@
 import { resolve } from "path";
 import { config } from "dotenv";
 
-export default function envfunction(path = "") {
+export default function envfunction(path = "./") {
     let alfa;
     switch (process.env.NODE_ENV) {
         case "production":
@@ -23,5 +23,6 @@ export default function envfunction(path = "") {
             alfa = "";
             console.log("Bunday env-module mavjud emas");
     }
-    return config({ path: resolve(`./src/${path}environment/${alfa}.env`) });
+
+    return config({ path: resolve(`${path}src/environment/${alfa}.env`) });
 }

@@ -27,16 +27,16 @@ word.create_word_full = async (req, res) => {
 
         await knex.transaction(async (trx) => {
             const word = await knex("words").insert({ word: data.word, created_by: req.user.id, word_type: data.word_group }).returning("id").transacting(trx);
-            if (data.definition.definition)
-                await knex("definition")
-                    .insert({
-                        word: word[0].id,
-                        definition: data.definition.definition,
-                        resource: data.definition.resource,
-                        page: data.definition.page,
-                        written_by: req.user.id,
-                    })
-                    .transacting(trx);
+            // if (data.definition.definition)
+            await knex("definition")
+                .insert({
+                    word: word[0].id,
+                    definition: data.definition.definition,
+                    resource: data.definition.resource,
+                    page: data.definition.page,
+                    written_by: req.user.id,
+                })
+                .transacting(trx);
             if (data.example.example)
                 await knex("example")
                     .insert({
@@ -57,27 +57,15 @@ word.create_word_full = async (req, res) => {
                         written_by: req.user.id,
                     })
                     .transacting(trx);
-            if (data.other_forms.length > 0) {
-                const synonymes = await knex("words").whereIn("word", data.other_forms).select("*").transacting(trx);
-                const news = data.other_forms.filter((e) => !Boolean(synonymes.find((i) => i.word === e)));
+            if (data.synonyms.length > 0) {
+                const synonymes = await knex("words").whereIn("word", data.synonyms).select("*").transacting(trx);
+                const news = data.synonyms.filter((e) => !Boolean(synonymes.find((i) => i.word === e)));
                 const newsword = await knex("words")
                     .insert(news.map((e) => ({ word: e, created_by: req.user.id, word_type: data.word_group, status: 6 })))
                     .returning("id")
                     .transacting(trx);
                 const syn = [...newsword.map((e) => e.id), ...synonymes.map((e) => e.id)];
                 await knex("synonym")
-                    .insert(syn.map((e) => ({ word: word[0].id, synonym: e, level: 5, written_by: req.user.id })))
-                    .transacting(trx);
-            }
-            if (data.other_forms_2.length > 0) {
-                const synonymes = await knex("words").whereIn("word", data.other_forms_2).select("*").transacting(trx);
-                const news = data.other_forms_2.filter((e) => !Boolean(synonymes.find((i) => i.word === e)));
-                const newsword = await knex("words")
-                    .insert(news.map((e) => ({ word: e, created_by: req.user.id, word_type: data.word_group, status: 6 })))
-                    .returning("id")
-                    .transacting(trx);
-                const syn = [...newsword.map((e) => e.id), ...synonymes.map((e) => e.id)];
-                await knex("inflected_form")
                     .insert(syn.map((e) => ({ word: word[0].id, synonym: e, level: 5, written_by: req.user.id })))
                     .transacting(trx);
             }
@@ -120,6 +108,7 @@ word.get_words_full = async (req, res) => {
             .leftJoin("example", "example.word", "words.id")
             .leftJoin("history", "history.word", "words.id")
             .distinctOn("words.id")
+            // synonyms
             .select({
                 id: "words.id",
                 word: "words.word",
@@ -136,7 +125,13 @@ word.get_words_full = async (req, res) => {
 
 word.get_word_by_id = async (req, res) => {
     try {
-        const word = await knex("words").where("id", req.params.id).first();
+        const word = await knex("words")
+            .where("words.id", req.params.id)
+            // .whereNotIn("status", [3, 5, 6])
+            .leftJoin("definition", "definition.word", "words.id")
+            .select(["words.id", "words.word", "definition.definition"])
+            .distinctOn("words.id")
+            .first();
         res.status(200).json(word);
     } catch (error) {
         console.log(error);

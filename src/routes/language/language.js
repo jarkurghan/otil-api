@@ -5,7 +5,9 @@ import schema from "../../validations/schema.js";
 const word = {};
 word.get_languages = async (req, res) => {
     try {
-        const languages = await knex("languages");
+        const languages = await knex("languages")
+            .leftJoin("users", "users.id", "languages.created_by")
+            .select({ languages: "languages.*", created_by_first_name: "users.first_name", created_by_last_name: "users.last_name" });
         res.status(200).json(languages);
     } catch (error) {
         console.log(error);
@@ -43,11 +45,11 @@ word.add_language = async (req, res) => {
 
 word.add_word_types = async (req, res) => {
     try {
-        const validation = schema.createWordType.validate(req.body);
-        if (validation.error) return res.status(400).json({ message: validation.error.details[0].message });
+        // const validation = schema.createWordType.validate(req.body);
+        // if (validation.error) return res.status(400).json({ message: validation.error.details[0].message });
 
         // check
-
+        console.log(req.body);
         req.body.created_by = req.user.id;
         await knex("word_type").insert(req.body);
         res.status(201).json({});

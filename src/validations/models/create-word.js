@@ -54,22 +54,13 @@ export default Joi.object({
         errors[0].message = "history of origin is incomplete. fill or remove";
         return errors;
     }),
-    other_forms: Joi.array()
-        .items(Joi.string().regex(/^[a-z]+$/i))
+    synonyms: Joi.array()
+        .items(Joi.string().regex(/^[a-z' ]+$/i))
         .min(0)
         .required()
         .error((errors) => {
             console.log(errors[0].code);
             errors[0].message = "invalid word in synonyms";
-            return errors;
-        }),
-    other_forms_2: Joi.array()
-        .items(Joi.string().regex(/^[a-z]+$/i))
-        .min(0)
-        .required()
-        .error((errors) => {
-            console.log(errors[0].code);
-            errors[0].message = "invalid word in synonyms 2";
             return errors;
         }),
 });
