@@ -14,7 +14,7 @@ export default async (req, res, next) => {
         next();
     } catch (err) {
         if (err.message === "invalid signature") return res.status(401).json("invalid token");
-        if (err.message === "jwt expired") return res.status(401).json("token is expired");
+        if (err.message === "jwt expired") return res.status(499).json("token is expired");
         res.status(401).json("an unexpected error occurred");
         console.log(err);
     }
