@@ -29,12 +29,6 @@ export async function search(req, res) {
             .select(["words.id", "words.word", "example.phrase", "example.resource"])
             .whereLike("example.phrase", `%${search}%`);
 
-        // const sins = await knex("words")
-        //     .where("words.status", 4)
-        //     .leftJoin("example", "example.word", "words.id")
-        //     .select(["words.id", "words.word", "example.phrase", "example.resource"])
-        //     .whereLike("example.phrase", `%${search}%`);
-
         const data = [...words];
         data.push(...defs.filter((e) => !data.find((i) => e.id === i.id)));
         data.push(...hiss.filter((e) => !data.find((i) => e.id === i.id)));
