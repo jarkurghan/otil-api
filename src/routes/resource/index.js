@@ -7,8 +7,8 @@ import multer from "multer";
 const upload = multer();
 const type = upload.single("file");
 
-router.get("/", auth, action("WCW"), resource.get_resources);
-router.post("/", auth, type, resource.add_resource);
+router.get("/", auth, resource.get_resources);
+router.post("/", auth, action("Create resource"), type, resource.add_resource);
 router.get("/file/:id", resource.resource_file);
 
 export default router;

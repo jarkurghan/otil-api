@@ -8,24 +8,24 @@ import comment from "./comment.js";
 import action from "../../middleware/actions.js";
 const router = Router();
 
-router.get("/list", action("WCW"), get.getWords);
-router.get("/list/:id/synonym", action("WCW"), get.getSynonyms);
-router.get("/:id/info", action("WCW"), get.getByID);
+router.get("/list", get.getWords);
+router.get("/list/:id/synonym", get.getSynonyms);
+router.get("/:id/info", get.getByID);
 
-// router.post("/", action("WCW"), create.create_word);
-router.post("/full", action("WCW"), create.create_word_full);
-router.post("/check", action("WCW"), create.new_word);
+// router.post("/", action("Create word"), create.create_word);
+router.post("/full", action("Create word"), create.create_word_full);
+router.post("/check", action("Create word"), create.new_word);
 
-// router.get("/", action("WCW"), word.get_words);
-// router.get("/:id", action("WCW"), word.get_word_by_id);
+// router.get("/", word.get_words);
+// router.get("/:id", word.get_word_by_id);
 
-router.get("/:id/comment", action("WCW"), comment.get);
-router.post("/:id/comment", action("WCW"), comment.create);
-router.post("/:id/comment/like", action("WCW"), comment.like);
+router.get("/:id/comment", comment.get);
+router.post("/:id/comment", comment.create);
+router.post("/:id/comment/like", comment.like);
 
-router.put("/", action("WCW"), update.update_word);
+router.put("/", action("Update word"), update.update_word);
 
-router.patch("/status/submit", action("WCW"), status.active);
-router.delete("/status/delete", action("WCW"), status.delete);
+router.patch("/status/submit", action("Update word"), status.active);
+router.delete("/status/delete", action("Update word"), status.delete);
 
 export default router;
