@@ -4,6 +4,4 @@ dist/
 package-lock.json
 drafts.md
 .vscode/
-src/tools/send-email.js
-src/tools/send-message.js
 .env
