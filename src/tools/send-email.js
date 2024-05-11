@@ -25,7 +25,7 @@ async function wrapedSendMail(mailOptions) {
 export default async function createUser({ username, password }) {
     let mailOptions = {};
     mailOptions = {
-        from: "jarkurghan@gmail.com",
+        from: process.env.NODEMAILERHOST,
         to: "testingtransoxiania@gmail.com",
         subject: "HRP",
         text: "text",
