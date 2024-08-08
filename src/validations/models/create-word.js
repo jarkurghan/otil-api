@@ -1,4 +1,5 @@
 import Joi from "joi";
+import id from "../fields/id.js";
 
 // to-do: regex for definition, example, history
 
@@ -93,8 +94,8 @@ const synonymsRequired = Joi.array()
         return errors;
     });
 
-const byDef = Joi.object({ word: word, language, word_group, definition: definitionRequired, example, history, synonyms: synonymsOptional });
-const bySyn = Joi.object({ word: word, language, word_group, definition: definitionOptional, example, history, synonyms: synonymsRequired });
+const byDef = Joi.object({ id: id, word: word, language, word_group, definition: definitionRequired, example, history, synonyms: synonymsOptional });
+const bySyn = Joi.object({ id: id, word: word, language, word_group, definition: definitionOptional, example, history, synonyms: synonymsRequired });
 
 const createWord = Joi.alternatives().try(bySyn, byDef);
 
