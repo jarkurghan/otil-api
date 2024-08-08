@@ -9,10 +9,10 @@ export function up(knex) {
             table.string("status").notNullable();
             table.text("description");
         })
-        .createTable("view_level", function (table) {
-            table.increments("id").primary();
-            table.string("level").notNullable();
-        })
+        // .createTable("view_level", function (table) {
+        //     table.increments("id").primary();
+        //     table.string("level").notNullable();
+        // })
         .createTable("words", function (table) {
             table.increments("id").primary();
             table.string("word").notNullable();
@@ -41,7 +41,7 @@ export function up(knex) {
             table.integer("word").notNullable();
             table.foreign("word").references("id").inTable("words");
             table.text("phrase").notNullable();
-            table.string("word_position").notNullable();
+            table.string("word_position");
             table.integer("resource").notNullable();
             table.foreign("resource").references("id").inTable("resources");
             table.integer("page").notNullable();
@@ -93,13 +93,9 @@ export function up(knex) {
         })
         .createTable("view", function (table) {
             table.increments("id").primary();
-            table.integer("user").notNullable();
-            table.foreign("user").references("id").inTable("users");
             table.integer("word").notNullable();
             table.foreign("word").references("id").inTable("words");
-            table.integer("level").notNullable();
-            table.foreign("level").references("id").inTable("view_level");
-            table.datetime("date").defaultTo(knex.fn.now()).notNullable();
+            table.integer("count").defaultTo(0).notNullable();
         })
         .createTable("word_like", function (table) {
             table.increments("id").primary();
@@ -158,6 +154,6 @@ export function down(knex) {
         .dropTable("example")
         .dropTable("history")
         .dropTable("words")
-        .dropTable("view_level")
+        // .dropTable("view_level")
         .dropTable("word_status");
 }

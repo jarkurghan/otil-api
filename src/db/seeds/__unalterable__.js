@@ -26,5 +26,5 @@ export async function seed(knex) {
         { status: "synonym", description: "sinonim sifatida yaratilgan" },
     ]);
 
-    await knex("view_level").insert([{ level: "ko'rish" }, { level: "yetarlicha ko'rish" }, { level: "batafsil ko'rish" }]);
+    // await knex("view_level").insert([{ level: "ko'rish" }, { level: "yetarlicha ko'rish" }, { level: "batafsil ko'rish" }]);
 }

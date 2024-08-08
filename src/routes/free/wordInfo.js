@@ -28,8 +28,6 @@ export async function wordInfo(req, res) {
             .first();
         if (!data) return res.status(404).json({ message: "word not found" });
 
-        console.log(data);
-        
         data.definition = await knex("definition")
             .where("definition.word", data.id)
             .leftJoin("resources", "resources.id", "definition.resource")
@@ -51,7 +49,7 @@ export async function wordInfo(req, res) {
             .select(["synonym.id", "words.word"]);
 
         // data.comment = await knex("comment").select(knex.raw("count(*)")).where("word", data.id).first();
-        data.view = await knex("view").select(knex.raw("count(*)")).where("word", data.id).first();
+        data.view = await knex("view").select("count").where("word", data.id).first();
 
         if (!data.definition) data.definition = {};
         if (!data.example) data.example = {};

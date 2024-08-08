@@ -12,9 +12,9 @@ apis.getWords = async (req, res) => {
             .leftJoin("definition", "definition.word", "words.id")
             .leftJoin("users", "words.created_by", "users.id")
             .leftJoin("word_status", "words.status", "word_status.id")
+            .leftJoin("view", "words.id", "view.word")
             .leftJoin(knex("comment").select("word", knex.raw("count(*) as comments")).groupBy("word").as("x"), "x.word", "words.id")
-            .leftJoin(knex("view").select("word", knex.raw("count(*) as views")).groupBy("word").as("y"), "y.word", "words.id")
-            .select(["words.id", "words.word", "definition.definition", "x.comments", "y.views", "word_status.status", "first_name", "last_name"])
+            .select(["words.id", "words.word", "definition.definition", "x.comments", "view.count as views", "word_status.status", "first_name", "last_name"])
             .orderBy("words.status")
             .orderBy("words.id")
             .offset((req.query.page - 1) * 20)
@@ -93,7 +93,7 @@ apis.getByID = async (req, res) => {
             .select(["synonym.id", "words.word"]);
 
         data.comment = await knex("comment").select(knex.raw("count(*)")).where("word", req.params.id).first();
-        data.view = await knex("view").select(knex.raw("count(*)")).where("word", req.params.id).first();
+        data.view = await knex("view").select("count").where("word", req.params.id).first();
 
         if (!data.definition) data.definition = {};
         if (!data.example) data.example = {};
