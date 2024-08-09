@@ -96,9 +96,7 @@ export async function search(req, res) {
         data.push(...results.exas.filter((e) => !data.find((i) => e.id === i.id)));
         data.push(...results.syns.filter((e) => !data.find((i) => e.id === i.id)));
 
-        setTimeout(() => {
-            res.status(200).json(data);
-        }, 500);
+        res.status(200).json(data);
     } catch (error) {
         console.log(error);
         res.status(500).json("an error occurred");

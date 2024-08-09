@@ -28,28 +28,42 @@ export async function wordInfo(req, res) {
             .first();
         if (!data) return res.status(404).json({ message: "word not found" });
 
+        let wordID;
+        if (data.status_id === 4) {
+            wordID = (await knex("synonym").where("synonym", data.id).leftJoin("words", "synonym.word", "words.id").select("words.id"))[0].id;
+        } else wordID = data.id;
+
         data.definition = await knex("definition")
-            .where("definition.word", data.id)
+            .where("definition.word", wordID)
             .leftJoin("resources", "resources.id", "definition.resource")
             .select(["definition.*", "resources.name as resource_name"])
             .first();
         data.example = await knex("example")
-            .where("example.word", data.id)
+            .where("example.word", wordID)
             .leftJoin("resources", "resources.id", "example.resource")
             .select(["example.*", "resources.name as resource_name"])
             .first();
         data.history = await knex("history")
-            .where("history.word", data.id)
+            .where("history.word", wordID)
             .leftJoin("resources", "resources.id", "history.resource")
             .select(["history.*", "resources.name as resource_name"])
             .first();
-        data.synonyms = await knex("synonym")
-            .where("synonym.word", data.id)
-            .leftJoin("words", "synonym.synonym", "words.id")
-            .select(["synonym.id", "words.word"]);
 
-        // data.comment = await knex("comment").select(knex.raw("count(*)")).where("word", data.id).first();
-        data.view = await knex("view").select("count").where("word", data.id).first();
+        if (data.status_id === 4) {
+            data.synonyms = await knex("synonym")
+                .where("synonym.word", wordID)
+                .leftJoin("words", "synonym.synonym", "words.id")
+                .select(["synonym.id", "words.word"]);
+            data.synonyms.unshift(await knex("words").where("words.id", wordID).first());
+            data.synonyms = data.synonyms.filter((element) => element.word !== data.word);
+        } else
+            data.synonyms = await knex("synonym")
+                .where("synonym.word", wordID)
+                .leftJoin("words", "synonym.synonym", "words.id")
+                .select(["synonym.id", "words.word"]);
+
+        // data.comment = await knex("comment").select(knex.raw("count(*)")).where("word", wordID).first();
+        data.view = await knex("view").select("count").where("word", wordID).first();
 
         if (!data.definition) data.definition = {};
         if (!data.example) data.example = {};
