@@ -12,10 +12,10 @@ export async function search(req, res) {
                 new Promise(async (resolve, reject) => {
                     try {
                         results.words = await knex("words")
-                            .where("words.status", 2)
                             .leftJoin("definition", "definition.word", "words.id")
                             .select(["words.id", "words.word", "definition.definition"])
-                            .whereILike("words.word", `%${search}%`);
+                            .whereILike("words.word", `%${search}%`)
+                            .andWhere("words.status", 2);
                         resolve();
                     } catch (error) {
                         reject(error);
@@ -28,10 +28,10 @@ export async function search(req, res) {
                 new Promise(async (resolve, reject) => {
                     try {
                         results.defs = await knex("words")
-                            .where("words.status", 2)
                             .leftJoin("definition", "definition.word", "words.id")
                             .select(["words.id", "words.word", "definition.definition"])
-                            .whereILike("definition.definition", `%${search}%`);
+                            .whereILike("definition.definition", `%${search}%`)
+                            .andWhere("words.status", 2);
                         resolve();
                     } catch (error) {
                         reject(error);
@@ -44,10 +44,10 @@ export async function search(req, res) {
                 new Promise(async (resolve, reject) => {
                     try {
                         results.hiss = await knex("words")
-                            .where("words.status", 2)
                             .leftJoin("history", "history.word", "words.id")
                             .select(["words.id", "words.word", "history.history as definition", "history.resource"])
-                            .whereILike("history.history", `%${search}%`);
+                            .whereILike("history.history", `%${search}%`)
+                            .andWhere("words.status", 2);
                         resolve();
                     } catch (error) {
                         reject(error);
@@ -60,10 +60,10 @@ export async function search(req, res) {
                 new Promise(async (resolve, reject) => {
                     try {
                         results.exas = await knex("words")
-                            .where("words.status", 2)
                             .leftJoin("example", "example.word", "words.id")
                             .select(["words.id", "words.word", "example.phrase as definition", "example.resource"])
-                            .whereILike("example.phrase", `%${search}%`);
+                            .whereILike("example.phrase", `%${search}%`)
+                            .andWhere("words.status", 2);
                         resolve();
                     } catch (error) {
                         reject(error);
@@ -76,11 +76,12 @@ export async function search(req, res) {
                 new Promise(async (resolve, reject) => {
                     try {
                         results.syns = await knex("words")
-                            .where("words.status", 4)
                             .leftJoin("synonym", "synonym.synonym", "words.id")
                             .leftJoin("words as word", "word.id", "synonym.word")
                             .select(["words.id", "words.word", "word.word as definition"])
-                            .whereILike("words.word", `%${search}%`);
+                            .whereILike("words.word", `%${search}%`)
+                            .andWhere("words.status", 4)
+                            .andWhere("word.status", 2);
                         resolve();
                     } catch (error) {
                         reject(error);
