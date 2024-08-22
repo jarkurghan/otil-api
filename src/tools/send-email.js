@@ -1,12 +1,11 @@
 import { createTransport } from "nodemailer";
 
 const transporter = createTransport({
-    port: 587,
-    host: process.env.NODEMAILERHOST,
+    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: { user: process.env.NODEMAILEREMAIL, pass: process.env.NODEMAILERPASSWORD },
-    tls: { rejectUnauthorized: false },
-    secure: false,
-    requireTLS: true,
 });
 
 async function wrapedSendMail(mailOptions) {
@@ -22,12 +21,14 @@ async function wrapedSendMail(mailOptions) {
     });
 }
 
-export default async function createUser({ username, password }) {
+export default async function createUser({ username, password, email }) {
     let mailOptions = {};
+    console.log(process.env.NODEMAILERHOST);
+
     mailOptions = {
         from: process.env.NODEMAILERHOST,
-        to: "testingtransoxiania@gmail.com",
-        subject: "HRP",
+        to: email,
+        subject: "Lug'at",
         text: "text",
         html: `<div style="background-color: #fff; padding: 10px 25px; border-radius: 3px; border: 2px solid #ddd">
                 <div style="font-family: sans-serif; color: #666; font-size: 0.9rem; margin-block: 5px">
