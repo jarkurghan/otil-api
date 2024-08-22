@@ -30,27 +30,42 @@ user.getStatuses = async (req, res) => {
     }
 };
 
+Object.defineProperty(String.prototype, "toTitleCase", {
+    value: function () {
+        if (!this) return this;
+        let str = this.trim().toLowerCase().split("");
+        str[0] = str[0].toUpperCase();
+        for (let i = 0; i < str.length; i++) if (str[i] === " ") str[i + 1] = str[i + 1].toUpperCase();
+        return str.join("");
+    },
+    enumerable: false,
+});
+
 user.create = async (req, res) => {
     try {
-        const validation = createUser.validate(req.body);
+        const email = req.body.email.toLowerCase();
+        const phone = "+" + req.body.phone.replaceAll(/[^0-9]/gi, "");
+        const first_name = req.body.first_name?.toTitleCase();
+        const last_name = req.body.last_name?.toTitleCase();
+
+        const validation = createUser.validate({ phone, email });
         if (validation.error) return res.status(400).json(validation.error.details[0].message);
 
-        // to-do: check user already exists - by phone or by email
+        const checkUserAlreadyExists = await knex("users").where({ email }).orWhere({ phone }).first();
+        if (checkUserAlreadyExists) return res.status(400).json("user already exists");
 
         const user_id = await generate_id();
-        const p = generate_password();
-        const salt = await bcrypt.genSalt();
-        req.body.user_id = user_id;
-        req.body.password = await bcrypt.hash(p, salt);
+        const password = generate_password();
+        const hash = await bcrypt.hash(password, await bcrypt.genSalt());
 
+        console.log({ password, user_id });
         await knex.transaction(async (trx) => {
-            console.log(p);
-            await sendSMS({ text: `username: ${user_id}\npassword: ${p}` });
-            // await sendEmail({ username: user_id, password: p });
-            await knex("users").insert(req.body);
+            // await sendSMS({ text: `username: ${user_id}\npassword: ${password}` });
+            // await sendEmail({ username: user_id, password: password, email });
+            await knex("users").insert({ first_name, last_name, email, phone, user_id, password: hash });
         });
 
-        await res.status(201).json({ user_id, password: p });
+        await res.status(201).json({ user_id });
     } catch (error) {
         console.log(error);
         res.status(500).json("an error occurred");
