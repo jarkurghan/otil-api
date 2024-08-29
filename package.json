@@ -1,15 +1,18 @@
 {
-    "name": "otil-api",
+    "name": "tts-hrp-tts-admin-api",
     "version": "1.0.0",
-    "description": "APIs of explanatory dictionary of the Uzbek language",
+    "description": "HRP proyekti uchun TTS-Admin API'lari",
     "main": "index.js",
-    "scripts": {
-        "dev": "nodemon index.js",
-        "start": "node index.js"
-    },
     "type": "module",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "engines": {
+        "node": "16.13.1"
+    },
     "keywords": [],
-    "author": "TTS",
+    "author": "tts",
     "license": "ISC",
     "dependencies": {
         "axios": "^1.6.8",
