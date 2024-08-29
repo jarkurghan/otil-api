@@ -45,8 +45,8 @@ user.create = async (req, res) => {
     try {
         const email = req.body.email.toLowerCase();
         const phone = "+" + req.body.phone.replaceAll(/[^0-9]/gi, "");
-        const first_name = req.body.first_name?.toTitleCase();
-        const last_name = req.body.last_name?.toTitleCase();
+        const first_name = req.body.first_name.toTitleCase();
+        const last_name = req.body.last_name.toTitleCase();
 
         const validation = createUser.validate({ phone, email });
         if (validation.error) return res.status(400).json(validation.error.details[0].message);
