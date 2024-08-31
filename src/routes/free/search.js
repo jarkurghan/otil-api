@@ -19,6 +19,7 @@ export async function search(req, res) {
                             .select(["words.id", "words.word", "definition.definition", "word.word as definition2"])
                             .whereILike("words.word", `%${search}%`)
                             .andWhere("words.status", 2);
+                        // to-do: bu ish hali tugamadi; synonym bo'lmay qolishi ham mumkin;
                         results.words.map((e) => { if (!e.definition) e.definition = e.definition2; delete e.definition2 })
                         resolve();
                     } catch (error) {
