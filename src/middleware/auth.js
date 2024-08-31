@@ -3,7 +3,9 @@ import jwt from "jsonwebtoken";
 
 export default async (req, res, next) => {
     try {
-        const token = req.headers.authorization?.replace(/bearer /i, "");
+        console.log(req.headers.authorization);
+        
+        const token = req.headers.authorization.replace(/bearer /i, "");
         if (!token) return res.status(401).json("token is required");
         const obj = jwt.verify(token, "maxfiykalit");
         if (!obj.id && !obj.exp) return res.status(401).json("invalid token");

@@ -7,7 +7,8 @@ export async function search(req, res) {
 
         const results = { words: [], defs: [], hiss: [], exas: [], syns: [] };
         const promises = [];
-        if (req.query.args?.includes("word"))
+        const args = req.query.args || [];
+        if (args.includes("word"))
             promises.push(
                 new Promise(async (resolve, reject) => {
                     try {
@@ -26,7 +27,7 @@ export async function search(req, res) {
                 })
             );
 
-        if (req.query.args?.includes("definition"))
+        if (args.includes("definition"))
             promises.push(
                 new Promise(async (resolve, reject) => {
                     try {
@@ -42,7 +43,7 @@ export async function search(req, res) {
                 })
             );
 
-        if (req.query.args?.includes("history"))
+        if (args.includes("history"))
             promises.push(
                 new Promise(async (resolve, reject) => {
                     try {
@@ -58,7 +59,7 @@ export async function search(req, res) {
                 })
             );
 
-        if (req.query.args?.includes("resource"))
+        if (args.includes("resource"))
             promises.push(
                 new Promise(async (resolve, reject) => {
                     try {
@@ -74,7 +75,7 @@ export async function search(req, res) {
                 })
             );
 
-        if (req.query.args?.includes("synonym"))
+        if (args.includes("synonym"))
             promises.push(
                 new Promise(async (resolve, reject) => {
                     try {

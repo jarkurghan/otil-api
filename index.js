@@ -20,5 +20,6 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(options1)));
 
 app.use("/", router);
 app.listen(process.env.PORT, () => {
-    console.log(`Ilova ishga tushdi: http://localhost:${process.env.PORT}`);
+    console.log(`Ilova ishga tushdi: http://localhost:${process.env.PORT || 2006}`);
 });
+console.log(1111);
