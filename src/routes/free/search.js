@@ -13,9 +13,12 @@ export async function search(req, res) {
                     try {
                         results.words = await knex("words")
                             .leftJoin("definition", "definition.word", "words.id")
-                            .select(["words.id", "words.word", "definition.definition"])
+                            .leftJoin("synonym", "synonym.word", "words.id")
+                            .leftJoin("words as word", "word.id", "synonym.synonym")
+                            .select(["words.id", "words.word", "definition.definition", "word.word as definition2"])
                             .whereILike("words.word", `%${search}%`)
                             .andWhere("words.status", 2);
+                        results.words.map((e) => { if (!e.definition) e.definition = e.definition2; delete e.definition2 })
                         resolve();
                     } catch (error) {
                         reject(error);
