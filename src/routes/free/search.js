@@ -18,7 +18,8 @@ export async function search(req, res) {
                             .leftJoin("words as word", "word.id", "synonym.synonym")
                             .select(["words.id", "words.word", "definition.definition", "word.word as definition2"])
                             .whereILike("words.word", `%${search}%`)
-                            .andWhere("words.status", 2);
+                            .andWhere("words.status", 2)
+                            .distinctOn("words.id");
                         // to-do: bu ish hali tugamadi; synonym bo'lmay qolishi ham mumkin;
                         results.words.map((e) => { if (!e.definition) e.definition = e.definition2; delete e.definition2 })
                         resolve();
