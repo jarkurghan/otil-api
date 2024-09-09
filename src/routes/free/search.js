@@ -2,6 +2,8 @@ import knex from "../../db/db.js";
 
 export async function search(req, res) {
     try {
+        console.log(1);
+        
         if (!req.query.page) req.query.page = 1;
         const search = req.query.request || "";
 
