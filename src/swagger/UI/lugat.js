@@ -25,7 +25,7 @@
  *              in: query
  *              schema:
  *                     type: number
- *                     example: 20
+ *                     example: 40
  *       responses:
  *            200:
  *                description: success

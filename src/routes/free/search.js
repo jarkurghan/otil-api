@@ -2,9 +2,9 @@ import knex from "../../db/db.js";
 
 export async function search(req, res) {
     try {
-        console.log(1);
-        
-        if (!req.query.page) req.query.page = 1;
+        // to-do: paginition sifatsiz bo'ldi, paginition to'g'ridan to'gri baza bilan ishlansa tezlik muammo bo'lmaydi;
+        const page = !req.query.page ? 1 : Number(req.query.page);
+        const count = !req.query.count ? 40 : Number(req.query.count);
         const search = req.query.request || "";
 
         const results = { words: [], defs: [], hiss: [], exas: [], syns: [] };
@@ -23,7 +23,10 @@ export async function search(req, res) {
                             .andWhere("words.status", 2)
                             .distinctOn("words.id");
                         // to-do: bu ish hali tugamadi; synonym bo'lmay qolishi ham mumkin;
-                        results.words.map((e) => { if (!e.definition) e.definition = e.definition2; delete e.definition2 })
+                        results.words.map((e) => {
+                            if (!e.definition) e.definition = e.definition2;
+                            delete e.definition2;
+                        });
                         resolve();
                     } catch (error) {
                         reject(error);
@@ -104,8 +107,9 @@ export async function search(req, res) {
         data.push(...results.hiss.filter((e) => !data.find((i) => e.id === i.id)));
         data.push(...results.exas.filter((e) => !data.find((i) => e.id === i.id)));
         data.push(...results.syns.filter((e) => !data.find((i) => e.id === i.id)));
+        data.sort((a, b) => b.id - a.id);
 
-        res.status(200).json(data);
+        res.status(200).json({ data: data.slice((page - 1) * count, page * count), length: data.length });
     } catch (error) {
         console.log(error);
         res.status(500).json("an error occurred");
