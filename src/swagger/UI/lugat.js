@@ -12,19 +12,20 @@
  *                     example: "s"
  *            - name: args
  *              in: query
- *              type: boolean
- *            - name: 'liabilityType[]'
+ *              explode: true
+ *              schema:
+ *                     type: string
+ *                     example: word,definition,history,resource,
+ *            - name: page
  *              in: query
  *              schema:
- *                  type: array
- *                  items: 
- *                      type: string
- *                      enum: ["city", "city-region", "city-region-country"]
- *                      default: "city"
- *              collectionFormat: multi
- *              value:
- *                  - CAR
- *                  - HOUSE
+ *                     type: number
+ *                     example: 1
+ *            - name: count
+ *              in: query
+ *              schema:
+ *                     type: number
+ *                     example: 20
  *       responses:
  *            200:
  *                description: success
