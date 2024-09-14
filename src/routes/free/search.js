@@ -3,8 +3,8 @@ import knex from "../../db/db.js";
 export async function search(req, res) {
     try {
         // to-do: paginition sifatsiz bo'ldi, paginition to'g'ridan to'gri baza bilan ishlansa tezlik muammo bo'lmaydi;
-        const page = !req.query.page ? 1 : Number(req.query.page);
-        const count = !req.query.count ? 40 : Number(req.query.count);
+        const page = isNaN(req.query.page) ? 1 : Number(req.query.page);
+        const count = isNaN(req.query.count) ? 40 : Number(req.query.count);
         const search = req.query.request || "";
 
         const results = { words: [], defs: [], hiss: [], exas: [], syns: [] };
@@ -109,7 +109,7 @@ export async function search(req, res) {
         data.push(...results.syns.filter((e) => !data.find((i) => e.id === i.id)));
         data.sort((a, b) => b.id - a.id);
 
-        res.status(200).json({ data: data.slice((page - 1) * count, page * count), length: data.length });
+        res.status(200).json({ data: data.slice((page - 1) * count, page * count), count: data.length });
     } catch (error) {
         console.log(error);
         res.status(500).json("an error occurred");
