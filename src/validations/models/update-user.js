@@ -19,4 +19,4 @@ export default Joi.object({
     user_status: Joi.optional(),
     password: Joi.optional(),
     created_date: Joi.optional(),
-})
+});
