@@ -7,7 +7,8 @@ const apis = {};
 apis.getWords = async (req, res) => {
     try {
         if (!req.query.page) req.query.page = 1;
-        const words = await knex("words")
+        if (!req.query.count) req.query.count = 20;
+        const wordsPromise = knex("words")
             .whereIn("words.status", [1, 2])
             .leftJoin("definition", "definition.word", "words.id")
             .leftJoin("users", "words.created_by", "users.id")
@@ -16,11 +17,11 @@ apis.getWords = async (req, res) => {
             .leftJoin(knex("comment").select("word", knex.raw("count(*) as comments")).groupBy("word").as("x"), "x.word", "words.id")
             .select(["words.id", "words.word", "definition.definition", "x.comments", "view.count as views", "word_status.status", "first_name", "last_name"])
             .orderBy("words.status")
-            .orderBy("words.id")
-            .offset((req.query.page - 1) * 20)
-            .limit(20);
+            .orderBy("words.id");
 
-        res.status(200).json(words);
+        const count = (await wordsPromise).length;
+        const data = await wordsPromise.offset((req.query.page - 1) * req.query.count).limit(req.query.count);
+        res.status(200).json({ data, count });
     } catch (error) {
         console.log(error);
         res.status(500).json("an error occurred");
