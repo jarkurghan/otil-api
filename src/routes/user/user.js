@@ -47,23 +47,19 @@ user.create = async (req, res) => {
         const phone = "+" + req.body.phone.replaceAll(/[^0-9]/gi, "");
         const first_name = (req.body.first_name || "").toTitleCase();
         const last_name = (req.body.last_name || "").toTitleCase();
+        const password = req.body.password;
 
-        const validation = createUser.validate({ phone, email });
+        const validation = createUser.validate({ phone, email, password });
         if (validation.error) return res.status(400).json(validation.error.details[0].message);
 
         const checkUserAlreadyExists = await knex("users").where({ email }).orWhere({ phone }).first();
         if (checkUserAlreadyExists) return res.status(400).json("user already exists");
 
         const user_id = await generate_id();
-        const password = generate_password();
         const hash = await bcrypt.hash(password, await bcrypt.genSalt());
 
         console.log({ password, user_id });
-        await knex.transaction(async (trx) => {
-            // await sendSMS({ text: `username: ${user_id}\npassword: ${password}` });
-            // await sendEmail({ username: user_id, password: password, email });
-            await knex("users").insert({ first_name, last_name, email, phone, user_id, password: hash });
-        });
+        await knex("users").insert({ first_name, last_name, email, phone, user_id, password: hash });
 
         await res.status(201).json({ user_id });
     } catch (error) {

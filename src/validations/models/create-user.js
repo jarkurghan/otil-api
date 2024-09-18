@@ -7,4 +7,5 @@ export default Joi.object({
     email: Joi.string()
         .regex(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
         .optional(),
+    password: Joi.string().required(),
 });
