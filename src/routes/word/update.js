@@ -5,10 +5,10 @@ const word = {};
 
 word.update_word = async (req, res) => {
     try {
-        console.log(req.body);
-        const validation = schema.createWord.validate(req.body);
-        if (validation.error) return res.status(400).json(validation.error.details[0].message);
-        const data = validation.value;
+        // console.log(req.body);
+        // const validation = schema.createWord.validate(req.body);
+        // if (validation.error) return res.status(400).json(validation.error.details[0].message);
+        const data = req.body;
 
         const checkWord = await knex("words").where("word", data.word).select("*").first();
         // bu yerda status bo'yicha tekshirish kerak - synonym
