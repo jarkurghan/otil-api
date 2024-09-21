@@ -40,3 +40,30 @@
  *                         schema:
  *                              type: string
  */
+
+/**
+ * @swagger
+ * /lugat/info/{word}:
+ *   get:
+ *       summary: word info
+ *       tags: [lugat]
+ *       parameters:
+ *            - in: path
+ *              name: word
+ *              schema:
+ *                     type: string
+ *                     example: "repost"
+ *       responses:
+ *            200:
+ *                description: success
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ *            400:
+ *                description: error
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ */
