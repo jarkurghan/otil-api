@@ -67,3 +67,31 @@
  *                         schema:
  *                              type: string
  */
+
+/**
+ * @swagger
+ * /lugat/word/view:
+ *   post:
+ *       summary: increase word views count
+ *       tags: [lugat]
+ *       requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          example: {"word": 18}
+ *       responses:
+ *            200:
+ *                description: success
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ *            400:
+ *                description: error
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ */
