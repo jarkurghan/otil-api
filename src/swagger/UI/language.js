@@ -49,3 +49,59 @@
  *                         schema:
  *                              type: string
  */
+
+/**
+ * @swagger
+ * /otil/v1/api/language:
+ *   post:
+ *       summary: create language
+ *       tags: [language]
+ *       requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          example: { "language": "Qozoq tili", description:"" }
+ *       responses:
+ *            200:
+ *                description: success
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ *            400:
+ *                description: error
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ */
+
+/**
+ * @swagger
+ * /otil/v1/api/language/type:
+ *   post:
+ *       summary: create word type
+ *       tags: [language]
+ *       requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          example: { "language": 2, description:"" }
+ *       responses:
+ *            200:
+ *                description: success
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ *            400:
+ *                description: error
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ */
