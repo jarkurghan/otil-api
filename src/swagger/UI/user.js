@@ -10,7 +10,7 @@
  *                  application/json:
  *                      schema:
  *                          type: object
- *                          example: {"user_id": "lu0000", "password": "Qwer123#"}
+ *                          example: {"user_id": "######", "password": "########"}
  *       responses:
  *            200:
  *                description: success
