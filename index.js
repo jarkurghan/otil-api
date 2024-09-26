@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import options1 from "./src/swagger/swagger_options.js";
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(options1)));
+if (process.env.NODE_ENV !== "production") app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(options1)));
 
 app.use("/", router);
 app.listen(process.env.PORT, () => {

@@ -5,13 +5,7 @@ export default {
             title: "swagger of OTIL APIs",
             version: "1.0",
         },
-        servers: [
-            !process.env.NODE_ENV || process.env.NODE_ENV === "development"
-                ? { url: "http://localhost:2006/" }
-                : {
-                      // url: "https://tts-hrp-api-auth-dev.herokuapp.com/",
-                  },
-        ],
+        servers: [{ url: "http://localhost:2006/" }, { url: "http://178.128.243.52:2006/" }],
     },
     apis: ["./src/swagger/UI/*.js"],
 };

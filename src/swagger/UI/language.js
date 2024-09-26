@@ -56,6 +56,8 @@
  *   post:
  *       summary: create language
  *       tags: [language]
+ *       security:
+ *            - token: []
  *       requestBody:
  *              required: true
  *              content:
@@ -84,6 +86,8 @@
  *   post:
  *       summary: create word type
  *       tags: [language]
+ *       security:
+ *            - token: []
  *       requestBody:
  *              required: true
  *              content:
