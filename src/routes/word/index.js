@@ -12,12 +12,8 @@ router.get("/list", get.getWords);
 router.get("/list/:id/synonym", get.getSynonyms);
 router.get("/:id/info", get.getByID);
 
-// router.post("/", action("Create word"), create.create_word);
-router.post("/full", action("Create word"), create.create_word_full);
+router.post("/", action("Create word"), create.create_word_full);
 router.post("/check", action("Create word"), create.new_word);
-
-// router.get("/", word.get_words);
-// router.get("/:id", word.get_word_by_id);
 
 router.get("/:id/comment", comment.get);
 router.post("/:id/comment", comment.create);
