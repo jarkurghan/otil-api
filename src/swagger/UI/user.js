@@ -1,16 +1,33 @@
 /**
  * @swagger
- * /otil/v1/api/user/login:
- *   post:
- *       summary: login
+ * /otil/v1/api/user:
+ *   get:
+ *       summary: get all users
  *       tags: [user]
- *       requestBody:
- *              required: true
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          example: {"user_id": "######", "password": "########"}
+ *       security:
+ *            - token: []
+ *       responses:
+ *            200:
+ *                description: success
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ *            400:
+ *                description: error
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ */
+/**
+ * @swagger
+ * /otil/v1/api/user/status:
+ *   get:
+ *       summary: get all statuses
+ *       tags: [user]
+ *       security:
+ *            - token: []
  *       responses:
  *            200:
  *                description: success
@@ -41,6 +58,36 @@
  *                      schema:
  *                          type: object
  *                          example: {"first_name": "ism", "last_name": "familya", "email":"test@email.uz", "phone":"+998900012498"}
+ *       responses:
+ *            200:
+ *                description: success
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ *            400:
+ *                description: error
+ *                content:
+ *                    application/json:
+ *                         schema:
+ *                              type: string
+ */
+
+/**
+ * @swagger
+ * /otil/v1/api/user:
+ *   put:
+ *       summary: update user
+ *       tags: [user]
+ *       security:
+ *            - token: []
+ *       requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          example: { "id":2, "first_name": "ism", "last_name": "familya", "email":"test@email.uz", "phone":"+998900012498"}
  *       responses:
  *            200:
  *                description: success
@@ -135,7 +182,7 @@
 /**
  * @swagger
  * /otil/v1/api/user/action/del:
- *   post:
+ *   delete:
  *       summary: remove action from user
  *       tags: [user]
  *       security:
