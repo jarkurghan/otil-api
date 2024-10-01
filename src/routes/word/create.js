@@ -4,21 +4,9 @@ import schema from "../../validations/schema.js";
 import convert from "../../validations/converters/convert.js";
 
 const word = {};
-word.create_word = async (req, res) => {
-    try {
-        const validation = Joi.object({ word: Joi.string().required() }).validate(req.body);
-        if (validation.error) return res.status(400).json(validation.error.details[0].message);
-        const word = await knex("words").insert({ word: req.body.word, created_by: req.user.id }, "*");
-        res.status(201).json(word[0].id);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json("an error occurred");
-    }
-};
 
 word.create_word_full = async (req, res) => {
     try {
-        console.log(req.body);
         const validation = schema.createWord.validate(req.body);
         if (validation.error) return res.status(400).json(validation.error.details[0].message);
         const data = validation.value;
