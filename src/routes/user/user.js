@@ -76,11 +76,16 @@ user.update = async (req, res) => {
         delete req.body.password;
         delete req.body.user_status;
         delete req.body.user_id;
+        const { phone, email } = req.body;
 
         const status = await knex("user_status").where("id", req.body.status).first();
         if (status.status !== "active" && status.status !== "deactive") return res.status(400).json("status wrong");
 
-        // to-do: email, phone - unique
+        const checkUserAlreadyExists = await knex("users")
+            .whereNot({ id: req.body.id })
+            .andWhere((qb) => qb.where({ email }).orWhere({ phone }))
+            .first();
+        if (checkUserAlreadyExists) return res.status(400).json("user already exists");
         await knex("users").where({ id: req.body.id }).update(req.body);
         await res.status(200).json({});
     } catch (error) {
