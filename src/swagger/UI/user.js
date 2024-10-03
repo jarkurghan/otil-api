@@ -151,7 +151,7 @@
 
 /**
  * @swagger
- * /otil/v1/api/user/action/add:
+ * /otil/v1/api/user/action:
  *   post:
  *       summary: add action for user
  *       tags: [user]
@@ -181,7 +181,7 @@
 
 /**
  * @swagger
- * /otil/v1/api/user/action/del:
+ * /otil/v1/api/user/action:
  *   delete:
  *       summary: remove action from user
  *       tags: [user]
