@@ -18,6 +18,7 @@ const login = async (req, res) => {
 
         const data = {
             token: generate_token(user.id),
+            profile: { first_name: user.first_name, last_name: user.last_name },
             actions: actions.map((e) => e.action),
         };
         await res.status(200).json(data);
